@@ -10,4 +10,9 @@ This is a Python scraper project using Docker. It runs a script on a schedule vi
 
 ## Reference Commands
 > sudo docker run --rm --network=host scraper-job
+
 Starts the docker container with host network access, which is necessary to access Directus databases.
+
+> sudo docker build -t scraper-job .
+
+Rebuilds the docker image after making changes.
