@@ -16,3 +16,8 @@ Starts the docker container with host network access, which is necessary to acce
 > sudo docker build -t scraper-job .
 
 Rebuilds the docker image after making changes.
+
+## Updated flow, working somewhat
+> sudo docker build -t selenium-chrome .
+> sudo docker run --rm --network=host -it selenium-chrome bash
+> xvfb-run --server-args="-screen 0 1920x1080x24" python /app/scraper.py

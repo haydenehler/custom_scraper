@@ -8,11 +8,19 @@ from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+import os
 
 chrome_options = Options()
-chrome_options.add_argument("--headless")  # Run in headless mode
-chrome_options.add_argument("--no-sandbox")  # Required for Docker
-chrome_options.add_argument("--disable-dev-shm-usage")  # Prevent crashes
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-popup-blocking")
+chrome_options.add_argument("--disable-gpu")
+
+# Use a persistent Chrome profile inside Docker
+chrome_profile_path = "/chrome-profile"
+chrome_options.add_argument(f"--user-data-dir={chrome_profile_path}")
+
+os.system("pkill chrome || true")
 
 # Set up ChromeDriver
 service = Service("/usr/bin/chromedriver")  # Path to ChromeDriver in Docker
@@ -39,10 +47,12 @@ try:
             continue
 
         full_url = f"{website['base_url']}{item.get('item_name', '').replace(' ', '+')}"  # Fix URL formatting
+        looking_for = website['html_class']
         print(f"Scraping URL: {full_url}")
 
         try:
             driver.get(full_url)
+            print(f"Looking for element: {looking_for}")
 
             # Wait for the price element to be present in the DOM using WebDriverWait
             price_element = WebDriverWait(driver, 10).until(
@@ -61,7 +71,7 @@ try:
                 print("No products found for this search.")
             else:
                 print("Failed to locate element, here is the page source snippet for debugging:")
-                print(page_source[:10000])  # print the first 500 chars of the page source for debugging
+                #print(page_source[:100000])  # print the first 500 chars of the page source for debugging
 
         # Optional: Print out the URL for clarity
             print(f"URL: {full_url}")
