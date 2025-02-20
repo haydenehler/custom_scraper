@@ -5,3 +5,6 @@
 - Testing build.sh
 ## [v1.0.1] - 2025-02-20
 - Fixed build issue
+
+## [v1.0.1] - 2025-02-20
+- Trying build again
