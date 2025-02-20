@@ -18,7 +18,10 @@ if [ $? -eq 0 ]; then
   echo "Docker build succeeded."
 
   # Step 2: Find the latest version in CHANGELOG.md and determine new version number
-  current_version=$(grep -oP '(?<=## \[)[^]]+' CHANGELOG.md | head -n 1)
+  #current_version=$(grep -oP '(?<=## \[)[^]]+' CHANGELOG.md | head -n 1)
+  # Get the current version from the latest version in CHANGELOG.md
+  current_version=$(grep -oP '^## \[\K[^\]]+' CHANGELOG.md | head -n 1)
+
   echo "Current version: $current_version"
 
   # Split the version into its components (major, minor, patch)
@@ -50,17 +53,15 @@ if [ $? -eq 0 ]; then
   new_version="${major}.${minor}.${patch}"
   echo "New version: $new_version"
 
-  # Step 3: Git commit and push changes
-  git add .
-  git commit -m "$new_version: $commit_message"
-  git push
-
   # Step 4: Update CHANGELOG.md
   echo "Updating CHANGELOG.md..."
-  echo -e "\n## [$new_version] - $(date +%Y-%m-%d)" >> CHANGELOG.md
-  echo "- $commit_message" >> CHANGELOG.md
+  { 
+    echo -e "## [$new_version] - $(date +%Y-%m-%d)"
+    echo "- $commit_message"
+    cat CHANGELOG.md
+  } > temp_changelog && mv temp_changelog CHANGELOG.md
   git add CHANGELOG.md
-  git commit -m "Update CHANGELOG for $new_version"
+  git commit -m "$new_version: $commit_message"
   git push
 
   # Step 5: Run Docker image prune to clean up unused images
