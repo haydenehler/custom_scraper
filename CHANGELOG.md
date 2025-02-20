@@ -3,3 +3,6 @@
 - First version release
 ## [v1.0.1] - 2025-02-20
 - Testing build.sh
+
+## [v1.0.1] - 2025-02-20
+- Testing build.sh
