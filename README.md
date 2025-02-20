@@ -21,3 +21,6 @@ Rebuilds the docker image after making changes.
 > sudo docker build -t selenium-chrome .
 > sudo docker run --rm --network=host -it selenium-chrome bash
 > xvfb-run --server-args="-screen 0 1920x1080x24" python /app/scraper.py
+
+## This is the one, after adding start.sh
+> sudo docker run --rm --network=host -it selenium-chrome bash /start.sh

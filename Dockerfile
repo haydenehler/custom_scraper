@@ -13,12 +13,13 @@ WORKDIR /app
 
 # Copy the scraper.py file
 COPY scraper.py .
+COPY config.json .
 
 # Install necessary Python packages
 RUN pip install selenium requests
 
 # Make scraper.py executable
-RUN chmod +x scraper.py
+RUN chmod +x scraper.py config.json
 
 # Copy the start.sh script
 COPY start.sh /start.sh
