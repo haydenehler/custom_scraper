@@ -1,3 +1,5 @@
+## [v1.0.4] - 2025-02-25
+- Added regex to parse floats
 ## [v1.0.3] - 2025-02-20
 - setup finalized
 ## [v1.0.2] - 2025-02-20
